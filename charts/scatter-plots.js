@@ -1,8 +1,10 @@
 import * as d3 from "/esm-deps/d3.js";
+import * as echarts from "/esm-deps/echarts.js";
 import datasets from "/esm-deps/vega-datasets.js";
 
-export default async function plot(element) {
-  const carsDataset = await datasets["cars.json"]();
+const carsDataset = await datasets["cars.json"]();
+
+export async function plotD3(element) {
   const data = carsDataset
     .map((c) => ({
       x: c.Horsepower,
@@ -33,4 +35,17 @@ export default async function plot(element) {
   }
 
   element.append(svg.node());
+}
+
+export async function plotECharts(element) {
+  const myChart = echarts.init(element);
+  const data = carsDataset.map((c) => [c.Horsepower, c.Displacement]);
+
+  const option = {
+    xAxis: {},
+    yAxis: {},
+    series: [{ symbolSize: 5, data, type: "scatter" }],
+  };
+
+  myChart.setOption(option);
 }

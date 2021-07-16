@@ -3,10 +3,35 @@
     <title>Chart Rosetta</title>
   </head>
   <body>
+    <div id="list">
+      </div>
     <div style="width:300px;height:300px" id="chart"></div>
+    
     <script type="module">
-      import plot from "/scatter-plots/d3.js";
-      plot(document.querySelector("#chart"));
+      import { h, Component, render } from 'https://unpkg.com/preact?module'
+      import htm from 'https://unpkg.com/htm?module';
+      import * as d3 from "/esm-deps/d3.js";
+      import * as charts from "/charts/index.js";
+
+      const html = htm.bind(h);
+
+      function ChartItem({name, versions}) {
+	return h('div', null, 
+		 h('h3', null, name), 
+		 ...Object
+		 .entries(versions)
+		 .map(([name, func]) => h("span", {onClick: () => undefined}, name)))
+      }
+
+      function ChartList ({charts}) {
+	return h('div', null,
+		 ...Object
+		 .entries(charts)
+		 .map(([name, versions]) => h(ChartItem, {name,versions}))
+		)
+      }
+
+      render(h(ChartList,{charts}), document.querySelector("#list"));
     </script>
   </body>
 </html>
