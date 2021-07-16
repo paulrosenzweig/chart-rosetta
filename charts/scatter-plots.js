@@ -10,16 +10,18 @@ export async function plotD3(element) {
     }))
     .filter((c) => c.x != null && c.y != null);
   const { width, height } = element.getBoundingClientRect();
-  const margin = 20;
+  const margin = 30;
 
   const x = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.x))
-    .range([margin, width - margin]);
+    .rangeRound([margin, width - margin])
+    .nice();
   const y = d3
     .scaleLinear()
     .domain(d3.extent(data, (d) => d.y))
-    .range([height - margin, margin]);
+    .rangeRound([height - margin, margin])
+    .nice();
 
   const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`);
 
@@ -31,6 +33,16 @@ export async function plotD3(element) {
       .attr("r", 3)
       .attr("fill", "steelblue");
   }
+
+  svg
+    .append("g")
+    .attr("transform", `translate(${margin}, 0)`)
+    .call(d3.axisLeft(y));
+
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${height - margin})`)
+    .call(d3.axisBottom(x));
 
   element.append(svg.node());
 }
