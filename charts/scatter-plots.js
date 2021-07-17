@@ -1,5 +1,6 @@
 import * as d3 from "/esm-deps/d3.js";
 import * as echarts from "/esm-deps/echarts.js";
+import vegaEmbed from "/esm-deps/vega-embed.js";
 import carsDataset from "/data/cars.js";
 
 export async function plotD3(element) {
@@ -58,4 +59,19 @@ export async function plotECharts(element) {
   };
 
   myChart.setOption(option);
+}
+
+export async function plotVega(element) {
+  const spec = {
+    $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    description:
+      "A scatterplot showing horsepower and miles per gallons for various cars.",
+    data: { values: carsDataset },
+    mark: "point",
+    encoding: {
+      x: { field: "Horsepower", type: "quantitative" },
+      y: { field: "Miles_per_Gallon", type: "quantitative" },
+    },
+  };
+  await vegaEmbed(element, spec);
 }
