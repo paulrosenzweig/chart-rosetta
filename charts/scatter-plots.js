@@ -53,8 +53,8 @@ export async function plotECharts(element) {
   const data = carsDataset.map((c) => [c.Horsepower, c.Displacement]);
 
   const option = {
-    xAxis: {},
-    yAxis: {},
+    xAxis: { name: "Horsepower", nameLocation: "center" },
+    yAxis: { name: "Displacement", nameLocation: "center" },
     series: [{ symbolSize: 5, data, type: "scatter" }],
   };
 
@@ -66,11 +66,13 @@ export async function plotVega(element) {
     $schema: "https://vega.github.io/schema/vega-lite/v5.json",
     description:
       "A scatterplot showing horsepower and miles per gallons for various cars.",
+    width: "container",
+    height: "container",
     data: { values: carsDataset },
-    mark: "point",
+    mark: { type: "point", filled: true },
     encoding: {
       x: { field: "Horsepower", type: "quantitative" },
-      y: { field: "Miles_per_Gallon", type: "quantitative" },
+      y: { field: "Displacement", type: "quantitative" },
     },
   };
   await vegaEmbed(element, spec);

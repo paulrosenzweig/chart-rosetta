@@ -1,10 +1,23 @@
 <html>
   <head>
     <title>Chart Rosetta</title>
+    <style>
+      #contents {
+	  display: flex;
+      }
+      #list {
+	  min-width: 150px;
+      }
+      #chart {
+	  flex-grow: 1;
+      }
+    </style>
   </head>
   <body>
-    <div id="list"></div>
-    <div style="width:300px;height:300px" id="chart"></div>
+    <div id="contents">
+      <div id="list"></div>
+      <div style="width:300px;height:300px" id="chart"></div>
+    </div>
     <script type="module" src="index.js"></script>
   </body>
 </html>
