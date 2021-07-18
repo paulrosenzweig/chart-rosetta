@@ -15,16 +15,38 @@ export async function plotD3(element) {
 
   const x = d3
     .scaleLinear()
-    .domain(d3.extent(data, (d) => d.x))
+    .domain([0, d3.max(data, (d) => d.x)])
     .rangeRound([margin, width - margin])
     .nice();
   const y = d3
     .scaleLinear()
-    .domain(d3.extent(data, (d) => d.y))
+    .domain([0, d3.max(data, (d) => d.y)])
     .rangeRound([height - margin, margin])
     .nice();
 
   const svg = d3.create("svg").attr("viewBox", `0 0 ${width} ${height}`);
+
+  for (const tick of x.ticks()) {
+    const [y1, y2] = y.domain().map(y);
+    svg
+      .append("line")
+      .attr("x1", x(tick))
+      .attr("x2", x(tick))
+      .attr("y1", y1)
+      .attr("y2", y2)
+      .attr("stroke", "lightgray");
+  }
+
+  for (const tick of y.ticks()) {
+    const [x1, x2] = x.domain().map(x);
+    svg
+      .append("line")
+      .attr("y1", y(tick))
+      .attr("y2", y(tick))
+      .attr("x1", x1)
+      .attr("x2", x2)
+      .attr("stroke", "lightgray");
+  }
 
   for (const d of data) {
     svg
