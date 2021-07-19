@@ -2,17 +2,6 @@ import { h, Component, render } from "/esm-deps/preact.js";
 import * as d3 from "/esm-deps/d3.js";
 import * as charts from "/charts/index.js";
 
-function plotChart(chartName, versionName) {
-  const container = document.querySelector("#chart");
-  for (const { name } of container.attributes) {
-    if (name !== "id" && name !== "style") {
-      container.removeAttribute(name);
-    }
-  }
-  while (container.firstChild) container.firstChild.remove();
-  return charts[chartName][versionName](container);
-}
-
 function ChartItem({ name, versions }) {
   return h(
     "div",
@@ -42,4 +31,36 @@ function ChartList({ charts }) {
   );
 }
 
+const PARAM_NAME = "chart";
+
+function setQueryParam(chartName, versionName) {
+  const search = new URLSearchParams(location.search);
+  search.set(PARAM_NAME, [chartName, versionName].join(":"));
+  const url = new URL(location);
+  url.search = search;
+  window.history.pushState({}, document.title, url.toString());
+}
+
+function plotFromQueryParam() {
+  const search = new URLSearchParams(location.search);
+  const paramValue = search.get(PARAM_NAME);
+  if (paramValue !== null) {
+    const [chartName, versionName] = paramValue.split(":");
+    plotChart(chartName, versionName);
+  }
+}
+
+function plotChart(chartName, versionName) {
+  setQueryParam(chartName, versionName);
+  const container = document.querySelector("#chart");
+  for (const { name } of container.attributes) {
+    if (name !== "id" && name !== "style") {
+      container.removeAttribute(name);
+    }
+  }
+  while (container.firstChild) container.firstChild.remove();
+  return charts[chartName][versionName](container);
+}
+
 render(h(ChartList, { charts }), document.querySelector("#list"));
+plotFromQueryParam();
