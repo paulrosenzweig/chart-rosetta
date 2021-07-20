@@ -103,6 +103,7 @@ export async function plotECharts(element) {
     xAxis: { name: "Horsepower", nameLocation: "center" },
     yAxis: { name: "Displacement", nameLocation: "center", nameGap: 30 },
     series: [{ symbolSize: 5, data, type: "scatter" }],
+    animation: false,
   };
 
   myChart.setOption(option);
