@@ -1,7 +1,8 @@
 import { fetchDataset } from "/data/util.js";
 import * as d3 from "/esm-deps/d3.js";
 
-const data = await fetchDataset("stocks.csv");
+const rawData = await fetchDataset("stocks.csv");
+const data = rawData.map((d) => ({ ...d, date: new Date(d.date) }));
 export default data;
 
 export const maxPriceForTicker = d3
