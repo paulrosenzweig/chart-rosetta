@@ -33,6 +33,6 @@ const decadeCounts = d3.rollup(
   (d) => getDecade(d["Release Date"])
 );
 
-export const ratingDecadeCounts = ratingDecadeCountsUnfiltered.filter(
-  (r) => decadeCounts.get(r.decade) > 20
-);
+export const ratingDecadeCounts = ratingDecadeCountsUnfiltered
+  .filter((r) => decadeCounts.get(r.decade) > 20)
+  .filter((r) => r.rating !== null);
