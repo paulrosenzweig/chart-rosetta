@@ -4,6 +4,9 @@ import vegaEmbed from "/esm-deps/vega-embed.js";
 import { ratingDecadeCounts as data } from "/data/movies.js";
 
 export async function plotECharts(element) {
+  const decades = Array.from(new d3.InternSet(data.map((d) => d.decade))).sort(
+    d3.ascending
+  );
   const option = {
     xAxis: {
       type: "time",
@@ -14,13 +17,20 @@ export async function plotECharts(element) {
     },
     series: d3
       .flatGroup(data, (d) => d.rating)
-      .map(([rating, data]) => ({
-        type: "bar",
-        barCategoryGap: "10%",
-        name: rating,
-        stack: "foo",
-        data: data.map((d) => [d.decade, d.worldwideGross]),
-      })),
+      .map(([rating, values]) => {
+        const byDecade = d3.group(values, (d) => d.decade);
+        const data = decades.map((dec) => [
+          dec,
+          byDecade.has(dec) ? byDecade.get(dec)[0].worldwideGross : 0,
+        ]);
+        return {
+          type: "bar",
+          barCategoryGap: "10%",
+          name: rating,
+          stack: "foo",
+          data,
+        };
+      }),
     animation: false,
   };
 
@@ -54,6 +64,7 @@ export async function plotVega(element) {
           title: false,
           ticks: false,
           domain: false,
+          tickCount: 7,
         },
       },
       color: {
@@ -86,11 +97,7 @@ export async function plotD3(element) {
     .value((d, key) => d[key] || 0)(oneItemPerRating);
   const x = d3
     .scaleBand()
-    .domain(
-      data
-        .map((d) => d.decade)
-        .sort((a, b) => a.getFullYear() - b.getFullYear())
-    )
+    .domain(data.map((d) => d.decade).sort(d3.ascending))
     .rangeRound([margin, width - margin])
     .padding(0.1);
   const y = d3
@@ -104,7 +111,7 @@ export async function plotD3(element) {
   const yAxis = svg
     .append("g")
     .attr("transform", `translate(${margin}, 0)`)
-    .call(d3.axisLeft(y).tickFormat(d3.format("~s")).ticks(5));
+    .call(d3.axisLeft(y).tickFormat(d3.format("~s")));
 
   yAxis.select(".domain").remove();
   yAxis
