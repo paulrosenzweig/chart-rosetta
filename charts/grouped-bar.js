@@ -43,18 +43,19 @@ export async function plotVega(element) {
     padding: 45,
     data: { values: data },
     mark: { type: "bar" },
-    config: { view: { stroke: "transparent" } },
+    config: { view: { stroke: "transparent" }, facet: { spacing: 0 } },
     encoding: {
       x: {
         field: "rating",
         type: "ordinal",
-        axis: { title: null },
+        axis: { title: null, labels: false, ticks: false },
       },
       column: {
         field: "decade",
         type: "ordinal",
         timeUnit: "year",
         axis: { title: null },
+        header: { labelOrient: "bottom" },
       },
       y: {
         field: "worldwideGross",
