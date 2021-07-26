@@ -1,6 +1,6 @@
-import * as d3 from "./esm-deps/d3.js";
-import * as echarts from "./esm-deps/echarts.js";
-import vegaEmbed from "./esm-deps/vega-embed.js";
+import * as d3 from "/esm-deps/d3.js";
+import * as echarts from "/esm-deps/echarts.js";
+import vegaEmbed from "/esm-deps/vega-embed.js";
 
 const data = new Array(365).fill(0).map((d, i) => ({
   value: Math.floor(Math.random() * 100),

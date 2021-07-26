@@ -1,7 +1,7 @@
-import * as d3 from "./esm-deps/d3.js";
-import * as echarts from "./esm-deps/echarts.js";
-import vegaEmbed from "./esm-deps/vega-embed.js";
-import data from "./data/stocks.js";
+import * as d3 from "/esm-deps/d3.js";
+import * as echarts from "/esm-deps/echarts.js";
+import vegaEmbed from "/esm-deps/vega-embed.js";
+import data from "/data/stocks.js";
 
 export async function plotECharts(element) {
   const option = {
