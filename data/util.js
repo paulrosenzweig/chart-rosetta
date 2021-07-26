@@ -1,17 +1,22 @@
 import datasets from "/esm-deps/vega-datasets.js";
 import * as d3 from "/esm-deps/d3.js";
 
-function localUrl(url) {
-  return url
-    .replace("https://vega.github.io", "/node_modules")
-    .replace(
-      "https://cdn.jsdelivr.net/npm/vega-datasets@2.2.0",
-      "/node_modules/vega-datasets"
-    );
+function getUrl(name) {
+  const url = datasets[name].url;
+  if (location.host.match(/^localhost(:\d+)?$/) !== null) {
+    // if we're running locally, grab the local file
+    return url
+      .replace("https://vega.github.io", "/node_modules")
+      .replace(
+        "https://cdn.jsdelivr.net/npm/vega-datasets@2.2.0",
+        "/node_modules/vega-datasets"
+      );
+  }
+  return url;
 }
 
 export async function fetchDataset(name) {
-  const result = await fetch(localUrl(datasets[name].url));
+  const result = await fetch(getUrl(name));
 
   if (name.endsWith(".json")) {
     return result.json();
