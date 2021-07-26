@@ -1,6 +1,6 @@
-import { h, Component, render } from "/esm-deps/preact.js";
-import * as d3 from "/esm-deps/d3.js";
-import * as charts from "/charts/index.js";
+import { h, Component, render } from "/chart-rosetta/esm-deps/preact.js";
+import * as d3 from "/chart-rosetta/esm-deps/d3.js";
+import * as charts from "/chart-rosetta/charts/index.js";
 
 function ChartItem({ name, versions }) {
   return h(

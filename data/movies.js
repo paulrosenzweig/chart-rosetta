@@ -1,5 +1,5 @@
-import { fetchDataset } from "/data/util.js";
-import * as d3 from "/esm-deps/d3.js";
+import { fetchDataset } from "/chart-rosetta/data/util.js";
+import * as d3 from "/chart-rosetta/esm-deps/d3.js";
 
 const rawData = await fetchDataset("movies.json");
 const data = rawData.map((d) => ({
