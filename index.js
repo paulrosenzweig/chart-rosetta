@@ -15,7 +15,7 @@ function ChartItem({ name, versions }) {
           plotChart(name, versionName);
           e.preventDefault();
         };
-        return h("li", null, h("a", { onClick }, versionName));
+        return h("li", null, h("a", { href: "#", onClick }, versionName));
       })
     )
   );
