@@ -1,7 +1,7 @@
-import * as d3 from "/esm-deps/d3.js";
-import * as echarts from "/esm-deps/echarts.js";
-import vegaEmbed from "/esm-deps/vega-embed.js";
-import carsDataset from "/data/cars.js";
+import * as d3 from "./esm-deps/d3.js";
+import * as echarts from "./esm-deps/echarts.js";
+import vegaEmbed from "./esm-deps/vega-embed.js";
+import carsDataset from "./data/cars.js";
 
 export async function plotD3(element) {
   const data = carsDataset
