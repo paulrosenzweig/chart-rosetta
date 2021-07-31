@@ -5,3 +5,4 @@ export * as stackedBar from "/chart-rosetta/charts/stacked-bar.js";
 export * as groupedBar from "/chart-rosetta/charts/grouped-bar.js";
 export * as heatmap from "/chart-rosetta/charts/heatmap.js";
 export * as histogram from "/chart-rosetta/charts/histogram.js";
+export * as barLine from "/chart-rosetta/charts/barLine.js";
