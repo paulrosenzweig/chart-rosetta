@@ -33,6 +33,46 @@ export async function plotECharts(element) {
 export async function plotVega(element) {
   const spec = {
     $schema: "https://vega.github.io/schema/vega-lite/v5.json",
+    data: { values: ratingDecadeCounts },
+    width: "container",
+    height: "container",
+    config: { view: { stroke: false } },
+    padding: 50,
+    layer: [
+      {
+        mark: "bar",
+        transform: [{ filter: { field: "rating", equal: "R" } }],
+        encoding: {
+          x: {
+            timeUnit: "year",
+            field: "decade",
+            type: "ordinal",
+            axis: { title: false, domain: false },
+          },
+          y: {
+            field: "worldwideGross",
+            type: "quantitative",
+            axis: { format: "~s", title: false, domain: false, ticks: false },
+          },
+        },
+      },
+      {
+        mark: "line",
+        transform: [{ filter: { field: "rating", equal: "PG" } }],
+        encoding: {
+          x: {
+            timeUnit: "year",
+            field: "decade",
+            type: "ordinal",
+          },
+          y: {
+            field: "worldwideGross",
+            type: "quantitative",
+          },
+          color: { value: "green" },
+        },
+      },
+    ],
   };
 
   await vegaEmbed(element, spec);
